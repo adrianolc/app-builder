@@ -15,7 +15,7 @@ def create_app():
             github.list_branches(), mimetype='application/json'
         )
 
-    @app.route('/branches/<branch>')
+    @app.route('/branches/<path:branch>')
     def get_branch(branch):
         return Response(
             github.branch_detail(branch), mimetype='application/json'
