@@ -1,4 +1,6 @@
 from requests import get
+from subprocess import run, PIPE
+from shlex import split as split_command
 
 import settings
 import json
@@ -40,3 +42,18 @@ class GithubApi:
 
     def __print_making_request(self, url):
         print(f'Making request on: {url}')
+
+class GitCmd:
+    def clone(self):
+        self.__run_command(f'git clone {settings.GITHUB_REPO_URL}')
+    
+    def checkout(self, commit):
+        self.__run_command(f'cd {settings.GITHUB_REPO_NAME} && git checkout {commit}')
+    
+    def __run_command(self, command):
+        process = run(split_command(command),
+                    stdout=PIPE,
+                    universal_newlines=True)
+        
+        print(process.stdout)
+    
