@@ -1,6 +1,7 @@
+from requests import get
+
 import settings
 import json
-from requests import get
 
 class GithubApi:
     def __init__(self):
