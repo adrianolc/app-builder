@@ -6,12 +6,12 @@ class GithubApi:
     def __init__(self):
         self.__base_url = settings.GITHUB_URL
         self.__base_header = {
-            'Authorization' : 'token {}'.format(settings.GITHUB_TOKEN),
+            'Authorization' : f'token {settings.GITHUB_TOKEN}',
             'Accept' : 'application/vnd.github.v3+json'
         }
 
     def list_branches(self):
-        url = '{}/branches?per_page=100'.format(self.__base_url)
+        url = f'{self.__base_url}/branches?per_page=100'
 
         self.__print_making_request(url)
 
@@ -20,7 +20,7 @@ class GithubApi:
         return req.text
 
     def branch_detail(self, branch):
-        url = '{0}/branches/{1}'.format(self.__base_url, branch)
+        url = f'{self.__base_url}/branches/{branch}'
 
         self.__print_making_request(url)
 
@@ -29,7 +29,7 @@ class GithubApi:
         return req.text
 
     def list_tags(self):
-        url = '{}/tags?per_page=100'.format(settings.GITHUB_URL)
+        url = f'{settings.GITHUB_URL}/tags?per_page=100'
 
         self.__print_making_request(url)
 
@@ -38,4 +38,4 @@ class GithubApi:
         return req.text
 
     def __print_making_request(self, url):
-        print('Making request on: {}'.format(url))
+        print(f'Making request on: {url}')
