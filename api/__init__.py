@@ -1,6 +1,8 @@
-from flask import Flask, Response
+from flask import Flask, Response, send_from_directory
 from .github import GithubApi
 from .build import Build
+
+import settings
 
 MIME_TYPE = 'application/json'
 
@@ -25,11 +27,14 @@ def create_app():
     def get_tags():
         return __make_response(github.list_tags())
 
-    @app.route('/build/<commit>')
-    def get_build(commit):
-        build.build(commit)
+    @app.route('/build/<commit>/<build_variant>')
+    def get_build(commit, build_variant):
+        build.build(commit, build_variant)
 
-        return __make_response('Success!!!')
+        path = f'{settings.APK_PATH}/{build_variant}'
+        apk = f'app-{build_variant}.apk'
+
+        return send_from_directory(path, apk, as_attachment=True)
 
     def __make_response(response):
         return Response(response, mimetype=MIME_TYPE)
