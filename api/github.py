@@ -1,5 +1,5 @@
 from requests import get
-from subprocess import run, PIPE
+from subprocess import Popen, PIPE
 from shlex import split as split_command
 
 import settings
@@ -45,15 +45,23 @@ class GithubApi:
 
 class GitCmd:
     def clone(self):
-        self.__run_command(f'git clone {settings.GITHUB_REPO_URL}')
+        self._run_command(f'git clone {settings.GITHUB_REPO_URL}')
     
     def checkout(self, commit):
-        self.__run_command(f'cd {settings.GITHUB_REPO_NAME} && git checkout {commit}')
+        self._run_command(f'git checkout {commit}', settings.GITHUB_REPO_NAME)
     
-    def __run_command(self, command):
-        process = run(split_command(command),
+    def _run_command(self, command, dir=None):
+        print(f'Excuting command: {command}\n')
+
+        process = Popen(split_command(command),
+                    cwd=dir,
                     stdout=PIPE,
                     universal_newlines=True)
-        
-        print(process.stdout)
+
+        while True:
+            output = process.stdout.readline()
+            print(output.strip())
+
+            if process.poll() is not None:
+                break
     
