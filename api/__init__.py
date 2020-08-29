@@ -1,6 +1,6 @@
 from flask import Flask, Response, send_from_directory
-from .github import GithubApi
-from .build import Build
+from api.github_api import GithubApi
+from api.build import Build
 
 import settings
 
@@ -8,8 +8,9 @@ MIME_TYPE = 'application/json'
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
-    github = GithubApi()
-    build = Build()
+
+    github = GithubApi(settings.GITHUB_URL, settings.GITHUB_TOKEN)
+    build = Build(settings.GITHUB_URL, settings.GITHUB_REPO_NAME)
 
     @app.route('/')
     def index():

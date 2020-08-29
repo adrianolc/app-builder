@@ -1,10 +1,11 @@
 FROM python:3.8.2-alpine 
 
-WORKDIR /app-builder
+WORKDIR /usr/src/app
 
 COPY requirements.txt ./
 
 RUN python3 -m venv .venv
+RUN .venv/bin/pip3 install --upgrade pip
 RUN .venv/bin/pip3 install -r requirements.txt
 
 COPY api api
