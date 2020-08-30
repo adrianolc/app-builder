@@ -1,6 +1,6 @@
 from flask import Flask, Response, send_from_directory
 from api.github_api import GithubApi
-from api.build import Build
+from build_android.build import Build
 
 import settings
 

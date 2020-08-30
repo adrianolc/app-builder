@@ -9,6 +9,8 @@ RUN .venv/bin/pip3 install --upgrade pip
 RUN .venv/bin/pip3 install -r requirements.txt
 
 COPY api api
+COPY git git
+COPY build_android build_android
 COPY .env .flaskenv ./
 COPY settings.py boot.sh ./
 
