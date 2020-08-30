@@ -4,17 +4,19 @@ WORKDIR /usr/src/app
 
 COPY requirements.txt ./
 
-RUN python3 -m venv .venv
-RUN .venv/bin/pip3 install --upgrade pip
-RUN .venv/bin/pip3 install -r requirements.txt
+RUN pip3 install --upgrade pip && \
+    pip3 install -r requirements.txt
 
-COPY api api
-COPY git git
-COPY build_android build_android
-COPY .env .flaskenv ./
-COPY settings.py boot.sh ./
+RUN apk --update add git && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm /var/cache/apk/*
 
-RUN chmod a+x boot.sh
+COPY api api \
+     git git \
+     build_android build_android \
+     settings.py ./ \
+     .env .flaskenv ./ 
 
 EXPOSE 5000
-ENTRYPOINT ["./boot.sh"]
+
+CMD gunicorn --bind 0.0.0.0:5000 "api:create_app()" --timeout 600 --log-file=-

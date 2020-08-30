@@ -3,7 +3,7 @@ from shlex import split as split_command
 
 class GitCmd:
     def clone(self, repo_url):
-        self._run_command(f'git clone {repo_url}')
+        self._run_command(f'git clone "{repo_url}"')
     
     def checkout(self, commit, repo):
         self._run_command(f'git checkout {commit}', repo)
@@ -16,10 +16,11 @@ class GitCmd:
                     stdout=PIPE,
                     universal_newlines=True)
 
-        while True:
-            output = process.stdout.readline()
-            print(output.strip())
+        stdout, stderr = process.communicate()
 
-            if process.poll() is not None:
-                break
+        if stdout:
+            print(stdout)
+
+        if stderr:
+            print(stderr)
     

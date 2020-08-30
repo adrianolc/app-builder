@@ -10,7 +10,7 @@ def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
     github = GithubApi(settings.GITHUB_URL, settings.GITHUB_TOKEN)
-    build = Build(settings.GITHUB_URL, settings.GITHUB_REPO_NAME)
+    build = Build(settings.GITHUB_REPO_URL, settings.GITHUB_REPO_NAME)
 
     @app.route('/')
     def index():
