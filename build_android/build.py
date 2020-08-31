@@ -1,9 +1,15 @@
+from dotenv import load_dotenv
 from git.git_cmd import GitCmd
 
+import os
+
+load_dotenv()
+
 class Build(GitCmd):
-    def __init__(self, repo_url, repo):
-        self.__repo_url = repo_url
-        self.__repo = repo
+    def __init__(self):
+        self.__repo_url = os.getenv('REPO_URL')
+        self.__repo = os.getenv('REPO_NAME')
+        self.__apk_path = os.getenv('APK_PATH')
 
     def build(self, commit, build_variant):
         self.clone(self.__repo_url)

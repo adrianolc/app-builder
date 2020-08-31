@@ -1,16 +1,17 @@
+from dotenv import load_dotenv
 from flask import Flask, Response, send_from_directory
 from api.github_api import GithubApi
-from build_android.build import Build
 
-import settings
+import os
 
+
+load_dotenv()
 MIME_TYPE = 'application/json'
 
 def create_app():
     app = Flask(__name__, instance_relative_config=True)
 
-    github = GithubApi(settings.GITHUB_URL, settings.GITHUB_TOKEN)
-    build = Build(settings.GITHUB_REPO_URL, settings.GITHUB_REPO_NAME)
+    github = GithubApi(os.getenv('GITHUB_BASE_URL'), os.getenv('GITHUB_TOKEN'))
 
     @app.route('/')
     def index():
@@ -30,12 +31,7 @@ def create_app():
 
     @app.route('/build/<commit>/<build_variant>')
     def get_build(commit, build_variant):
-        build.build(commit, build_variant)
-
-        path = f'{settings.APK_PATH}/{build_variant}'
-        apk = f'app-{build_variant}.apk'
-
-        return send_from_directory(path, apk, as_attachment=True)
+        return __make_response('call build here')
 
     def __make_response(response):
         return Response(response, mimetype=MIME_TYPE)
