@@ -1,14 +1,9 @@
-from dotenv import load_dotenv
 from requests import get
+from config import env
 
-import json
-import os
-
-load_dotenv()
-
-BASE_URL = os.getenv('GITHUB_BASE_URL')
+BASE_URL = env['GITHUB_BASE_URL']
 BASE_HEADER = { 
-    'Authorization' : f'token {os.getenv("GITHUB_TOKEN")}', 
+    'Authorization' : f'token {env["GITHUB_TOKEN"]}', 
     'Accept' : 'application/vnd.github.v3+json' 
 }    
 
