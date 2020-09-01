@@ -1,0 +1,7 @@
+build:
+    docker:
+        github_api: github/Dockerfile
+        build_android: build_android/Dockerfile
+    config:
+        FLASK_APP: api
+        FLASK_ENV: development
