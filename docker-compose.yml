@@ -13,4 +13,8 @@ services:
     build_android:
         build: ./build_android/
         container_name: build_android
-        tty: true
+        ports: 
+            - "5001:5001"
+        environment: 
+            - FLASK_APP=api
+            - FLASK_ENV=development

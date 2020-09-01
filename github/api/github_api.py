@@ -41,4 +41,3 @@ def list_tags():
 
 def __print_making_request(url):
     print(f'Making request on: {url}')
-    

@@ -27,4 +27,3 @@ def create_app():
         return current_app.make_response('call build here')
 
     return app
-

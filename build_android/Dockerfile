@@ -1,4 +1,4 @@
-FROM alvrme/alpine-android:android-30
+FROM androidsdk/android-29
 
 WORKDIR /usr/src/build_android
 
@@ -9,3 +9,7 @@ RUN apk --update add py3-pip && \
     rm /var/cache/apk/*
 
 RUN pip3 install -r requirements.txt
+
+EXPOSE 5001
+
+CMD gunicorn --bind 0.0.0.0:5001 "api:create_app()" --timeout 1200 --log-file=-

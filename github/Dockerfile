@@ -9,4 +9,4 @@ RUN pip3 install --upgrade pip && \
 
 EXPOSE 5000
 
-CMD gunicorn --bind 0.0.0.0:5000 "api:create_app()" --timeout 600 --log-file=-
+CMD gunicorn --bind 0.0.0.0:5000 "api:create_app()" --log-file=-
