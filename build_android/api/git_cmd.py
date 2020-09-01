@@ -13,13 +13,6 @@ def run_command(command, dir=None):
 
     process = Popen(split_command(command),
                 cwd=dir,
-                stdout=PIPE,
-                universal_newlines=True)
+                bufsize=-1)
 
-    stdout, stderr = process.communicate()
-
-    if stdout:
-        print(stdout)
-
-    if stderr:
-        print(stderr)
+    process.wait()
