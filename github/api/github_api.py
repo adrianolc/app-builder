@@ -1,38 +1,39 @@
 from requests import get
-from config import env
 
-BASE_URL = env['GITHUB_BASE_URL']
-BASE_HEADER = { 
-    'Authorization' : f'token {env["GITHUB_TOKEN"]}', 
-    'Accept' : 'application/vnd.github.v3+json' 
-}    
+class GithubApi:
+    def __init__(self, base_url, token):
+        self.__base_url = base_url
+        self.__base_header = { 
+            'Authorization' : f'token {token}', 
+            'Accept' : 'application/vnd.github.v3+json' 
+        }    
 
-def list_branches():
-    url = f'{BASE_URL}/branches?per_page=100'
+    def list_branches(self):
+        url = f'{self.__base_url}/branches?per_page=100'
 
-    __print_making_request(url)
+        __print_making_request(url)
 
-    req = get(url, headers=BASE_HEADER)
+        req = get(url, headers=self.__base_header)
 
-    return req.text
+        return req.text
 
-def branch_detail(branch):
-    url = f'{BASE_URL}/branches/{branch}'
+    def branch_detail(self, branch):
+        url = f'{self.__base_url}/branches/{branch}'
 
-    __print_making_request(url)
+        __print_making_request(url)
 
-    req = get(url, headers=BASE_HEADER)
+        req = get(url, headers=self.__base_header)
 
-    return req.text
+        return req.text
 
-def list_tags():
-    url = f'{BASE_URL}/tags?per_page=100'
+    def list_tags(self):
+        url = f'{self.__base_url}/tags?per_page=100'
 
-    __print_making_request(url)
+        __print_making_request(url)
 
-    req = get(url, headers=BASE_HEADER)
+        req = get(url, headers=self.__base_header)
 
-    return req.text
+        return req.text
 
 def __print_making_request(url):
     print(f'Making request on: {url}')

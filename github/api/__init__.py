@@ -1,9 +1,10 @@
 from flask import Flask, current_app
-
-import api.github_api as github
+from config import env
+from api.github_api import GithubApi
 
 def create_app():
     app = Flask(__name__)
+    github = GithubApi(env['GITHUB_BASE_URL'], env['GITHUB_TOKEN'])
 
     @app.route('/')
     def index():
@@ -12,7 +13,6 @@ def create_app():
     @app.route('/branches')
     def get_branches():
         return current_app.make_response(github.list_branches())
-        # return __make_response()
 
     @app.route('/branches/<path:branch>')
     def get_branch(branch):

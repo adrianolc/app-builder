@@ -1,10 +1,11 @@
 from flask import Flask, send_from_directory
+from api.gradle_build import Gradle
 from config import env
 
-import api.gradle_build as gradle
 
 def create_app():
     app = Flask(__name__)
+    gradle = Gradle(env['REPO_NAME'], env['REPO_URL'])
 
     @app.route('/build/<path:commit>/<build_variant>')
     def build(commit, build_variant):
