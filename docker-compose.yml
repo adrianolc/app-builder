@@ -1,11 +1,16 @@
 version: "3.8"
 
 services:
-    app:
-        build: ./app/
+    github_api:
+        build: ./github/
+        container_name: github_api
         ports: 
             - "5000:5000"
+        environment: 
+            - FLASK_APP=api
+            - FLASK_ENV=development
 
     build_android:
         build: ./build_android/
+        container_name: build_android
         tty: true
