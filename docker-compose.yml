@@ -4,8 +4,8 @@ services:
     github_api:
         build: ./github/
         container_name: github_api
-        ports: 
-            - "5000:5000"
+        expose:
+            - "5000"
         environment: 
             - FLASK_APP=api
             - FLASK_ENV=development
@@ -13,8 +13,17 @@ services:
     build_android:
         build: ./build_android/
         container_name: build_android
-        ports: 
-            - "5001:5001"
+        expose:
+            - "5001"
         environment: 
             - FLASK_APP=api
             - FLASK_ENV=development
+    
+    proxy:
+        build: ./proxy/
+        container_name: proxy
+        ports: 
+            - "80:80"
+        depends_on: 
+            - github_api
+            - build_android

@@ -7,7 +7,7 @@ def create_app():
     app = Flask(__name__)
     gradle = Gradle(env['REPO_NAME'], env['REPO_URL'])
 
-    @app.route('/build/<path:commit>/<build_variant>')
+    @app.route('/<path:commit>/<build_variant>')
     def build(commit, build_variant):
         gradle.make_apk(commit, build_variant)
 

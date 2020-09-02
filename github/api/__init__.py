@@ -6,10 +6,6 @@ def create_app():
     app = Flask(__name__)
     github = GithubApi(env['GITHUB_BASE_URL'], env['GITHUB_TOKEN'])
 
-    @app.route('/')
-    def index():
-        return 'App Builder api version 1.0'
-
     @app.route('/branches')
     def get_branches():
         return current_app.make_response(github.list_branches())
@@ -21,9 +17,5 @@ def create_app():
     @app.route('/tags')
     def get_tags():
         return current_app.make_response(github.list_tags())
-
-    @app.route('/build/<commit>/<build_variant>')
-    def get_build(commit, build_variant):
-        return current_app.make_response('call build here')
 
     return app

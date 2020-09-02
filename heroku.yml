@@ -2,6 +2,7 @@ build:
     docker:
         github_api: github/Dockerfile
         build_android: build_android/Dockerfile
+        proxy: proxy/Dockerfile
     config:
         FLASK_APP: api
         FLASK_ENV: development
