@@ -12,10 +12,5 @@ class Gradle:
         git.run_command(f'./gradlew clean assemble{build_variant.capitalize()}' \
                         ' --stacktrace --no-daemon' \
                         ' -x ktlintFormat -x ktlint' \
-                        ' -Dorg.gradle.jvmargs=-Xmx2048m\ -XX:MaxPermSize=512m\ -XX:+HeapDumpOnOutOfMemoryError\ -Dfile.encoding=UTF-8' \
-                        ' -Dorg.gradle.daemon=false' \
-                        ' -Dorg.gradle.caching=true' \
-                        ' -Dorg.gradle.configureondemand=true' \
-                        ' -Dkotlin.compiler.execution.strategy=in-process' \
-                        ' -Dkotlin.incremental=false', 
+                        ' -Dkotlin.compiler.execution.strategy=in-process', 
                         self.__repo_name)
