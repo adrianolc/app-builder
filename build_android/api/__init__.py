@@ -1,30 +1,29 @@
-from flask import Flask, send_from_directory
-from api.gradle_build import Gradle
+from flask import Flask, send_file
+from api.gradle_build import Build
 from config import env
+from datetime import datetime
 from os import path
-
-BASE_DIR = path.dirname(path.realpath(__file__))
 
 def create_app():
     app = Flask(__name__)
-    gradle = Gradle(env['REPO_NAME'], env['REPO_URL'])
+    build = Build(env['REPO_NAME'], env['REPO_URL'])
 
     @app.route('/start/<path:commit>/<build_variant>')
-    def build(commit, build_variant):
-        gradle.make_apk(commit, build_variant)
+    def start_build(commit, build_variant):
+        apk_id = datetime.today().strftime('%Y%m%d_%H%M%S')
+        build.make_apk(commit, build_variant, apk_id)
 
         return { 
             'message'   : 'Build started',
-            'url'       : f'/build/download/{build_variant}'
+            'url'       : f'/build/download/{apk_id}'
         }, 202
 
-    @app.route('/download/<build_variant>')
-    def get_apk(build_variant):
-        apk_path = f'{env["APK_PATH"]}/{build_variant}'
-        apk = f'app-{build_variant}.apk'
+    @app.route('/download/<apk_id>')
+    def get_apk(apk_id):
+        apk_path = build.make_apk_path(apk_id)
 
-        if path.isfile(f'{BASE_DIR}/{apk_path}/{apk}'):
-            return send_from_directory(apk_path, apk, as_attachment=True)
+        if path.isfile(apk_path):
+            return send_file(apk_path, as_attachment=True)
 
         return { 'message' : 'Build still running' }, 202
 
