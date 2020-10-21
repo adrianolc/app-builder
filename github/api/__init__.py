@@ -1,4 +1,4 @@
-from flask import Flask, current_app
+from flask import Flask, current_app, request
 from config import env
 from api.github_api import GithubApi
 
@@ -8,7 +8,9 @@ def create_app():
 
     @app.route('/branches')
     def get_branches():
-        return current_app.make_response(github.list_branches())
+        page = request.args.get("page")
+
+        return current_app.make_response(github.list_branches(page))
 
     @app.route('/branches/<path:branch>')
     def get_branch(branch):
@@ -16,6 +18,8 @@ def create_app():
     
     @app.route('/tags')
     def get_tags():
-        return current_app.make_response(github.list_tags())
+        page = request.args.get("page")
+
+        return current_app.make_response(github.list_tags(page))
 
     return app

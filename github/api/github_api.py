@@ -8,8 +8,8 @@ class GithubApi:
             'Accept' : 'application/vnd.github.v3+json' 
         }    
 
-    def list_branches(self):
-        url = f'{self.__base_url}/branches?per_page=100'
+    def list_branches(self, page):
+        url = f'{self.__base_url}/branches?per_page=10&page={page}'
         req = get(url, headers=self.__base_header)
 
         return req.text
@@ -20,8 +20,8 @@ class GithubApi:
 
         return req.text
 
-    def list_tags(self):
-        url = f'{self.__base_url}/tags?per_page=100'
+    def list_tags(self, page):
+        url = f'{self.__base_url}/tags?per_page=10&page={page}'
         req = get(url, headers=self.__base_header)
 
         return req.text
