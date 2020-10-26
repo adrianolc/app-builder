@@ -1,6 +1,14 @@
-from flask import Flask, current_app, request
+from flask import Flask, request, json, make_response
 from config import env
 from api.github_api import GithubApi
+
+def json_response(data):
+    js = json.dumps(data)
+
+    response = make_response(js)
+    response.mimetype = "application/json"
+
+    return response 
 
 def create_app():
     app = Flask(__name__)
@@ -10,16 +18,16 @@ def create_app():
     def get_branches():
         page = request.args.get("page")
 
-        return current_app.make_response(github.list_branches(page))
+        return json_response(github.list_branches(page))
 
     @app.route('/branches/<path:branch>')
     def get_branch(branch):
-        return current_app.make_response(github.branch_detail(branch))
+        return json_response(github.branch_detail(branch))
     
     @app.route('/tags')
     def get_tags():
         page = request.args.get("page")
 
-        return current_app.make_response(github.list_tags(page))
+        return json_response(github.list_tags(page))
 
     return app

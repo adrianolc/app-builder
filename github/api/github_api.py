@@ -12,7 +12,7 @@ class GithubApi:
         url = f'{self.__base_url}/branches?per_page=10&page={page}'
         req = get(url, headers=self.__base_header)
 
-        return req.text
+        return req.json()
 
     def branch_detail(self, branch):
         url = f'{self.__base_url}/branches/{branch}'
